@@ -1,10 +1,9 @@
-import sys
 import time
 
 from my_parser import *
 
-sys.stdin = open('input.in', 'r')
-sys.stdout = open('output.out', 'w', encoding='UTF-8')
+file_in = open('input.in', 'r')
+file_out = open('output.out', 'w', encoding='UTF-8')
 
 
 def check(aks, exp):
@@ -34,7 +33,7 @@ def main():
         line_from_file(aksioms[i])
         aksioms[i] = parse_exp()
 
-    head = list(input().split(','))
+    head = list(file_in.readline().split(','))
     gips = head[:-1] + head[-1].split('|-')
     res = gips.pop()
 
@@ -47,7 +46,7 @@ def main():
     count = 0
     lines = []
     proof = dict()
-    for line in sys.stdin:
+    for line in file_in:
         if line[-1] != "\n":
             line += "\n"
         count += 1
@@ -56,24 +55,25 @@ def main():
         lines.append(line_p)
         for i in range(len(gips)):
             if line_p.is_equal(gips[i]):
-                print('(', count, ') ', line[:-1], ' (Предп. ', i + 1, ')', sep='')
+                print('(', count, ') ', line[:-1], ' (Предп. ', i + 1, ')', sep='', file=file_out)
                 break
         else:
             for i in range(len(lines)):
                 line_check = lines[i]
                 if line_check.sym == '->' and line_check.right.is_equal(
                         line_p) and line_check.left.hash in proof.keys():
-                    print('(', count, ') ', line[:-1], ' (M.P. ', proof[line_check.left.hash], ', ', i + 1, ')', sep='')
+                    print('(', count, ') ', line[:-1], ' (M.P. ', proof[line_check.left.hash], ', ', i + 1, ')', sep='',
+                          file=file_out)
                     break
             else:
                 for i in range(len(aksioms)):
                     aksiom_check = aksioms[i]
                     d = dict()
                     if check(aksiom_check, line_p):
-                        print('(', count, ') ', line[:-1], ' (Сх. акс. ', i + 1, ')', sep='')
+                        print('(', count, ') ', line[:-1], ' (Сх. акс. ', i + 1, ')', sep='', file=file_out)
                         break
                 else:
-                    print('(', count, ') ', line[:-1], ' Не доказано', sep='')
+                    print('(', count, ') ', line[:-1], ' Не доказано', sep='', file=file_out)
 
         proof[line_p.hash] = count
     print(time.time() - t1)

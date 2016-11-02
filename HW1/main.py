@@ -73,7 +73,7 @@ def main():
                         print('(', count, ') ', line[:-1], ' (Сх. акс. ', i + 1, ')', sep='', file=file_out)
                         break
                 else:
-                    print('(', count, ') ', line[:-1], ' Не доказано', sep='', file=file_out)
+                    print('(', count, ') ', line[:-1], ' (Не доказано)', sep='', file=file_out)
 
         proof[line_p.hash] = count
     print(time.time() - t1)

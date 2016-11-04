@@ -4,7 +4,7 @@ class Operation:
 
     def is_equal(self, exp2):
         return self.hash == exp2.hash
-        #return self.sym == exp2.sym and self.left.is_equal(exp2.left) and self.right.is_equal(exp2.right)
+        # return self.sym == exp2.sym and self.left.is_equal(exp2.left) and self.right.is_equal(exp2.right)
 
 
 class Var:
@@ -19,7 +19,7 @@ class Var:
 
     def is_equal(self, exp2):
         return self.hash == exp2.hash
-        #return self.sym == exp2.sym and self.name == exp2.name
+        # return self.sym == exp2.sym and self.name == exp2.name
 
 
 class Neg:
@@ -28,14 +28,14 @@ class Neg:
 
     def __init__(self, var):
         self.var = var
-        self.hash = self.var.hash  * self.num % mod
+        self.hash = self.var.hash * self.num % mod
 
     def to_string(self):
         return self.sym + self.var.to_string()
 
     def is_equal(self, exp2):
         return self.hash == exp2.hash
-        #return self.sym == exp2.sym and self.var.is_equal(exp2.var)
+        # return self.sym == exp2.sym and self.var.is_equal(exp2.var)
 
 
 class Conj(Operation):
@@ -116,10 +116,11 @@ def parse_neg():
 
 def line_from_file(line1):
     global line, cur
-    line = line1.replace(' ', '')
-    line = line.replace(chr(13), '')
+    cur = 0
+    line = line1
+
 
 # cur = 0
 # line = input()
 # print(parse_exp().to_string())
-mod = 10**9 + 7
+mod = 10 ** 9 + 7

@@ -2,7 +2,7 @@ import time
 
 from my_parser import *
 
-file_in = open('input.in', 'r')
+file_in = open('input.in', 'r', encoding='UTF-8')
 file_out = open('output.out', 'w', encoding='UTF-8')
 
 
@@ -33,7 +33,10 @@ def main():
         line_from_file(aksioms[i])
         aksioms[i] = parse_exp()
 
-    head = list(file_in.readline().split(','))
+    head = file_in.readline().replace(' ', '')
+    head = head.replace(chr(13), '')
+    print(head, file=file_out, end='')
+    head = list(head.split(','))
     gips = head[:-1] + head[-1].split('|-')
     res = gips.pop()
 
@@ -50,6 +53,8 @@ def main():
         if line[-1] != "\n":
             line += "\n"
         count += 1
+        line = line.replace(' ', '')
+        line = line.replace(chr(13), '')
         line_from_file(line)
         line_p = parse_exp()
         lines.append(line_p)

@@ -116,8 +116,8 @@ def parse_neg():
 
 def line_from_file(line1):
     global line, cur
-    cur = 0
-    line = line1
+    line = line1.replace(' ', '')
+    line = line.replace(chr(13), '')
 
 # cur = 0
 # line = input()

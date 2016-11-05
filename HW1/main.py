@@ -63,20 +63,21 @@ def main():
                 print('(', count, ') ', line[:-1], ' (Предп. ', i + 1, ')', sep='', file=file_out)
                 break
         else:
-            for i in range(len(lines)):
-                line_check = lines[i]
-                if line_check.sym == '->' and line_check.right.is_equal(
-                        line_p) and line_check.left.hash in proof.keys():
-                    print('(', count, ') ', line[:-1], ' (M.P. ', proof[line_check.left.hash], ', ', i + 1, ')', sep='',
-                          file=file_out)
+            for i in range(len(aksioms)):
+                aksiom_check = aksioms[i]
+                d = dict()
+                if check(aksiom_check, line_p):
+                    print('(', count, ') ', line[:-1], ' (Сх. акс. ', i + 1, ')', sep='', file=file_out)
                     break
             else:
-                for i in range(len(aksioms)):
-                    aksiom_check = aksioms[i]
-                    d = dict()
-                    if check(aksiom_check, line_p):
-                        print('(', count, ') ', line[:-1], ' (Сх. акс. ', i + 1, ')', sep='', file=file_out)
+                for i in range(len(lines)-1,-1,-1):
+                    line_check = lines[i]
+                    if line_check.sym == '->' and line_check.right.is_equal(
+                            line_p) and line_check.left.hash in proof.keys():
+                        print('(', count, ') ', line[:-1], ' (M.P. ', proof[line_check.left.hash], ', ', i + 1, ')', sep='',
+                              file=file_out)
                         break
+
                 else:
                     print('(', count, ') ', line[:-1], ' (Не доказано)', sep='', file=file_out)
 

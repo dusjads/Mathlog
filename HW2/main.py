@@ -268,12 +268,15 @@ def check_induction():
         tree_x1 = line_p.right
         tree_x2 = line_p.left.right.args.left
         tree_x_plus = line_p.left.right.args.right
+        print('So', line_p.to_string())
         if var.name in get_free_variables(line_p.right, dict(), set()) \
             and free_subtract(tree_x1, tree_x_plus, Var(var), dict(), dict()) \
             and free_subtract(tree_x1, tree_0, Var(var), dict(), dict()) \
             and tree_x1.is_eqal(tree_x2):
+            print('Yes')
             return True
     return False
+
 
 
 

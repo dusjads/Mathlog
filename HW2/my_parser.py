@@ -12,22 +12,6 @@ class Unary:
         return self.hash == exp2.hash
 
 
-class Fun(Unary):  # функция -- часть умножаемого
-    num = 31
-
-    def __init__(self, name, args):
-        self.name = name
-        self.args = args
-        self.hash = (hash(self.name) * self.num + sum(list(i.hash for i in args)) * self.num ** 2) % mod
-
-    def to_string(self):
-        res = self.name + '('
-        for i in self.args[:-1]:
-            res += i.to_string + ','
-        res += self.args[-1].to_string + ')'
-        return res
-
-
 class Summ(Operation):
     sym = '*'
     num = 41
@@ -62,7 +46,7 @@ class Pred(Unary):  # предикат
         if len(self.args) != 0:
             res += '('
             for i in self.args[:-1]:
-                res += i.to_string + ','
+                res += i.to_string() + ','
             res += self.args[-1].to_string() + ')'
         return res
 
@@ -93,7 +77,7 @@ class Plus_one(Unary):
         return self.args.to_string() + self.sym
 
 
-class Unar(Unary):
+class Negate(Unary):
     sym = '!'
     num = 13
 
@@ -220,7 +204,7 @@ def parse_unar():
     if line[cur] == '!':
         cur += 1
         e = parse_unar()
-        return Unar(e)
+        return Negate(e)
     elif line[cur] == '@' or line[cur] == '?':
         return parse_quan()
     elif line[cur] == '(':
@@ -298,7 +282,7 @@ def parse_mul():
                 args.append(parse_term())
             assert (line[cur] == ')')
             cur += 1
-            e = Fun(var, args)
+            e = Pred(var, args)
         else:
             e = Var(var)
     while cur < len(line) and line[cur] == "'":

@@ -66,19 +66,7 @@ def ax_check(aks, exp):
 
 
 def check_formal(aks, exp):
-    global d
-    if not aks.sym:
-        if aks.hash in d.keys():
-            return d[aks.hash].is_equal(exp)
-        d[aks.hash] = exp
-        return True
-    if isinstance(aks, Unary):
-        if type(aks) is type(exp):
-            return check_formal(aks.args, exp.args)
-        return False
-    if aks.sym == exp.sym:
-        return check_formal(aks.left, exp.left) and check_formal(aks.right, exp.right)
-    return False
+    return aks.hash == exp.hash
 
 
 def check_mp():

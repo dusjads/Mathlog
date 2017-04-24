@@ -283,6 +283,16 @@ def check_quantifier():
         # Exists
         if line_check.sym == '->' and line_p.left.sym == '?' and line_p.right.is_equal(line_check.right) \
                 and line_check.left.is_equal(line_p.left.args):
+            if line_p.left.var.name in free_from_alpha:
+                error = 'невозможно преобразовать вывод, используется правило с квнтором по переменной ' + \
+                        line_p.left.var.to_string() + \
+                        ', входящей свободно в допущение ' + alpha_s
+                return False
+            if line_p.left.var.name in get_free_variables(line_p.right, dict(), set()):
+                error = 'используется правило с квнтором по переменной ' + line_p.left.var.to_string() + \
+                        ', входящей свободно в формулу ' + line_p.right.to_string()
+                return False
+
             create_proof(4, line_check)
             return True
     return False
@@ -346,7 +356,6 @@ def main():
     free_from_alpha = set()
     if type(alpha) is not Nothing:
         get_free_variables(alpha, dict(), free_from_alpha)
-
     count = 0
     lines = []
     proof = dict()
